@@ -1,5 +1,5 @@
 import { IUser } from '../interfaces/User.interface';
-import { CreateUser } from '../model/Create.user';
+import { CreateUser } from '../model/User.model';
 import bcrypt from 'bcrypt';
 
 export class CreateUserService {
@@ -19,5 +19,10 @@ export class CreateUserService {
         };
 
         return resultFormated;
-    }
+    };
+
+    async findAllUserService() {
+        const user = new CreateUser();
+        return user.findAllUser();
+    };
 };

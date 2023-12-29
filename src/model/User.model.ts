@@ -13,4 +13,8 @@ export class CreateUser {
     async findUserEmail(email: string) {
         return await User.findOne({ email });
     }
+
+    async findAllUser() {
+        return await User.find({}, 'id name email');
+    };
 }
