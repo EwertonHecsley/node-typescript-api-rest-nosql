@@ -5,6 +5,7 @@ const router = Router();
 
 const User = new UserController();
 
+router.post('/login', User.login);
 router.post('/user', User.handle);
 router.get('/user', User.findAllUserController);
 

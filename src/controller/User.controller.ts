@@ -15,4 +15,12 @@ export class UserController {
         const result = await user.findAllUserService();
         return res.json(result);
     };
+
+    async login(req: Request, res: Response) {
+        const { email, password } = req.body;
+
+        const user = new CreateUserService();
+        const result = await user.login(email, password);
+        return res.json(result);
+    }
 };

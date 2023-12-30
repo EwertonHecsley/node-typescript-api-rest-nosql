@@ -1,3 +1,4 @@
+import { AuthUser } from '../auth/User.auth';
 import { IUser } from '../interfaces/User.interface';
 import { HttpException } from '../middleware/Http.exception';
 import { CreateUser } from '../model/User.model';
@@ -33,4 +34,10 @@ export class CreateUserService {
         const user = new CreateUser();
         return user.findAllUser();
     };
+
+    async login(email: string, password: string) {
+        const login = new AuthUser();
+        return await login.createToken(email, password);
+    };
+
 };
