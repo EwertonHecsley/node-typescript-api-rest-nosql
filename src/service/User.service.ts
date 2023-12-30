@@ -1,3 +1,4 @@
+import { JwtPayload } from 'jsonwebtoken';
 import { AuthUser } from '../auth/User.auth';
 import { IUser } from '../interfaces/User.interface';
 import { HttpException } from '../middleware/Http.exception';
@@ -33,6 +34,19 @@ export class CreateUserService {
     async findAllUserService() {
         const user = new CreateUser();
         return user.findAllUser();
+    };
+
+    async detailUserLogged(authorization: string) {
+        const userAuth = new AuthUser();
+        const userLogged = await userAuth.verifyLogin(authorization.split(' ')[1]) as JwtPayload;
+
+        const user = new CreateUser();
+        const result = await user.findUserEmail(userLogged['email']);
+        return {
+            id: result?.id,
+            name: result?.name,
+            email: result?.email
+        }
     };
 
     async login(email: string, password: string) {

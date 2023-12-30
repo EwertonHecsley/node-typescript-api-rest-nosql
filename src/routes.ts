@@ -11,6 +11,7 @@ router.post('/user', User.handle);
 
 router.use(validateLogin);
 
+router.get('/user/detail', User.detailUserLogged);
 router.get('/user', User.findAllUserController);
 
 export default router;

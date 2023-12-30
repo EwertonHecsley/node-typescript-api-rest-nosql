@@ -22,5 +22,13 @@ export class UserController {
         const user = new CreateUserService();
         const result = await user.login(email, password);
         return res.json(result);
+    };
+
+    async detailUserLogged(req: Request, res: Response) {
+        const { authorization } = req.headers;
+
+        const user = new CreateUserService();
+        const result = await user.detailUserLogged(authorization as string);
+        return res.json(result);
     }
 };
