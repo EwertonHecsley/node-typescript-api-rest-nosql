@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { CreateUserService } from '../service/User.service';
+import { loginSchema } from "../schemas/login.schema";
+import { ZodError } from "zod";
 
 export class UserController {
     async handle(req: Request, res: Response) {
@@ -18,6 +20,12 @@ export class UserController {
 
     async login(req: Request, res: Response) {
         const { email, password } = req.body;
+
+        try {
+            loginSchema.parse(req.body);
+        } catch (error) {
+            if (error instanceof ZodError) return res.status(400).json({ mensagem: error.issues[0].message });
+        }
 
         const user = new CreateUserService();
         const result = await user.login(email, password);
