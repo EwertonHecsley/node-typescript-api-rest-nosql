@@ -1,15 +1,23 @@
 import { IUser } from '../interfaces/User.interface';
 import { CreateUser } from '../model/User.model';
-import bcrypt from 'bcrypt';
+import { PassworService } from './Password.service';
+
 
 export class CreateUserService {
+    private passwordService: PassworService;
+
+    constructor() {
+        this.passwordService = new PassworService();
+    }
+
+
     async execute({ name, email, password }: IUser) {
         const user = new CreateUser();
 
         const emailExist = await user.findUserEmail(email);
         if (emailExist) throw new Error('Email já existe');
 
-        const passwordHash = await bcrypt.hash(password, 8);
+        const passwordHash = await this.passwordService.hashPassword(password);
 
         const result = await user.create({ name, email, password: passwordHash });
         const resultFormated = {
