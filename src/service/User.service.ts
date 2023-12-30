@@ -1,4 +1,5 @@
 import { IUser } from '../interfaces/User.interface';
+import { HttpException } from '../middleware/Http.exception';
 import { CreateUser } from '../model/User.model';
 import { PassworService } from './Password.service';
 
@@ -10,12 +11,11 @@ export class CreateUserService {
         this.passwordService = new PassworService();
     }
 
-
     async execute({ name, email, password }: IUser) {
         const user = new CreateUser();
 
         const emailExist = await user.findUserEmail(email);
-        if (emailExist) throw new Error('Email já existe');
+        if (emailExist) throw new HttpException(400, 'Email já cadastrado.');
 
         const passwordHash = await this.passwordService.hashPassword(password);
 
